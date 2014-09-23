@@ -1932,21 +1932,25 @@
 				var what = $(this).blur(), idx = index, relType, relVal;
 
 				if (!(e.ctrlKey || e.altKey || e.shiftKey || e.metaKey) && !what.is('.fancybox-wrap')) {
-					relType = options.groupAttr || 'data-fancybox-group';
-					relVal  = what.attr(relType);
+                    if (options.group) {
+                        what = options.group;
+                    }
+                    else {
+                        relType = options.groupAttr || 'data-fancybox-group';
+                        relVal  = what.attr(relType);
 
-					if (!relVal) {
-						relType = 'rel';
-						relVal  = what.get(0)[ relType ];
-					}
+                        if (!relVal) {
+                            relType = 'rel';
+                            relVal  = what.get(0)[ relType ];
+                        }
 
-					if (relVal && relVal !== '' && relVal !== 'nofollow') {
-						what = selector.length ? $(selector) : that;
-						what = what.filter('[' + relType + '="' + relVal + '"]');
-						idx  = what.index(this);
-					}
+                        if (relVal && relVal !== '' && relVal !== 'nofollow') {
+                            what = selector.length ? $(selector) : that;
+                            what = what.filter('[' + relType + '="' + relVal + '"]');
+                        }
+                    }
 
-					options.index = idx;
+					options.index = what.index(this);
 
 					// Stop an event from bubbling if everything is fine
 					if (F.open(what, options) !== false) {
